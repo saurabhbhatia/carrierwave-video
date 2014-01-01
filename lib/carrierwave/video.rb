@@ -19,6 +19,10 @@ module CarrierWave
         process encode_video: [target_format, options]
       end
 
+      def screenshot
+        process screenshot:
+      end
+
       def encode_ogv(opts={})
         process encode_ogv: [opts]
       end
@@ -65,6 +69,17 @@ module CarrierWave
         end
         File.rename tmp_path, current_path
       end
+    end
+
+    def screenshot
+      # move upload to local cache
+      cache_stored_file! if !cached?
+
+      @options = CarrierWave::Video::FfmpegOptions.new(format, opts)
+      tmp_path = File.join( File.dirname(current_path), "tmpfile.#{format}" )
+      file = ::FFMPEG::Movie.new(current_path)
+
+      @screenshot = file.screenshot("screenshot.png", preserve_aspect_ratio: :width)
     end
 
     private
