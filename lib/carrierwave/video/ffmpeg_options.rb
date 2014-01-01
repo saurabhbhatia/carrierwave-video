@@ -79,7 +79,6 @@ module CarrierWave
             case format
             when 'mp4'
               h[:video_codec] = 'libx264'
-              h[:audio_codec] = 'aac'
               h[:custom] = "-strict experimental -preset slow -g 30"
             when 'ogv'
               h[:video_codec] = 'libtheora'
