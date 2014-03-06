@@ -19,10 +19,6 @@ module CarrierWave
         process encode_video: [target_format, options]
       end
 
-      def screenshot
-        process screenshot:
-      end
-
       def encode_ogv(opts={})
         process encode_ogv: [opts]
       end
@@ -80,6 +76,7 @@ module CarrierWave
       file = ::FFMPEG::Movie.new(current_path)
 
       @screenshot = file.screenshot("screenshot.png", preserve_aspect_ratio: :width)
+      return @screenshot.path
     end
 
     private
